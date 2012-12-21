@@ -1,0 +1,155 @@
+<modification>
+  <id>Carrinho Flutuante</id>
+	<version>1.0</version>
+	<vqmver>2.1</vqmver>
+	<author>Jano Sousa / Luiz Eduardo Monteiro</author>
+<file name="catalog/view/theme/default/template/common/header.tpl">
+            <operation>
+                <search position="before"><![CDATA[</head>]]></search>
+                <add><![CDATA[<style type="text/css">
+    	#carrinho-flutuante{
+			display:none;position:fixed;right:0;top:30%;z-index:300;border:1px solid #d7f0f0;padding:10px;margin-bottom:15px;background:#fff;border-right:0;margin-right:0;}
+		}
+			#carrinho-flutuante strong{
+				display:block;
+				font-size:22px;
+				font-weight:bold;
+				padding:10px 0; 
+			}
+                       #carrinho-flutuante .price-old {
+                               color: red;
+                               margin-bottom: 2px;
+                               font-size: 1.2em;
+                               text-decoration: line-through;
+
+                         }
+                      #carrinho-flutuante .price-new {
+                              font-size: 1.9em;
+                              font-weight: bold;
+                              display:block;
+                              color: #333;
+                        }
+                        #carrinho-flutuante .price {
+                              overflow: auto;
+                              border-bottom: 1px solid #E7E7E7;
+                              padding: 0px 5px 10px 5px;
+                              margin-bottom: 10px;
+                               font-size: 1.2em;
+                              font-weight: bold;
+                              color: #333;
+                              cler:both;
+                        }
+			#carrinho-flutuante small{
+				display:block;
+				font-size:12px;
+				padding:5px 0 10px 0; 
+			}
+			#carrinho-flutuante input.add-cart{
+				display:block;
+				padding:15px;
+				text-align:center;
+				cursor:pointer;
+				font-size:18px;
+				text-decoration:none;
+				border:0px;
+				z-index:999999;
+				
+				background:#67A332;
+				color:#FFF;
+				
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				
+				-moz-transition: all 0.2s ease-in-out;
+				-webkit-transition: all 0.2s ease-in-out;
+				-o-transition: all 0.2s ease-in-out;
+				-ms-transition: all 0.2s ease-in-out;
+				transition: all 0.2s ease-in-out;				
+			}
+			#carrinho-flutuante input.add-cart:hover{background:#004A00;}
+
+    </style>
+	]]></add>
+            </operation>
+        </file>
+<file name="catalog/controller/product/product.php">
+            <operation>
+                <search position="before"><![CDATA[$this->data['text_price'] = $this->language->get('text_price');]]></search>
+                <add><![CDATA[$this->data['text_of'] = $this->language->get('text_of');]]></add>
+            </operation>
+        </file>
+
+          
+           <file name="catalog/language/*/product/product.php">
+            <operation>
+                <search position="before"><![CDATA[$_['text_price']]]></search>
+                <add><![CDATA[$_['text_of'] = ' De:';]]></add>
+            </operation>
+        </file>
+
+        <file name="catalog/controller/product/product.php">
+            <operation>
+                <search position="before"><![CDATA[$this->data['text_price'] = $this->language->get('text_price');]]></search>
+                <add><![CDATA[$this->data['text_for'] = $this->language->get('text_for');]]></add>
+            </operation>
+        </file>
+
+          
+           <file name="catalog/language/*/product/product.php">
+            <operation>
+                <search position="before"><![CDATA[$_['text_price']]]></search>
+                <add><![CDATA[$_['text_for'] = 'Por:';]]></add>
+            </operation>
+        </file>
+
+           <file name="catalog/view/theme/default/template/product/product.tpl">
+            <operation>
+                <search position="before" offset="3"><![CDATA[ <?php echo $content_bottom; ?>]]>
+                </search>
+                <add><![CDATA[
+            <div id="carrinho-flutuante" class="">
+
+            <div class="price"style="with:100px">
+            <?php echo  $text_of; ?>
+            <?php if (!$special) { ?>
+           <span class="price-old"> <?php echo $price; ?></span>
+          
+            <?php } else { ?>
+            <span class="price-old"><?php echo $price; ?></span> <span class="price-new"><?php echo $text_for; ?> <?php echo $special; ?></span>
+            <?php } ?>
+
+        <input class="add-cart" id="button-cart" type="button" value="Adicionar ao Carrinho">
+    </div>
+                ]]>
+                </add>
+            </operation>
+        </file>
+        
+        <file name="catalog/view/theme/default/template/product/product.tpl">
+            <operation>
+                <search position="before"><![CDATA[<?php echo $content_bottom; ?>]]></search>
+                <add><![CDATA[<script type="text/javascript">
+$(document).ready(function(){
+
+
+	$("#carrinho-flutuante").hide();
+	$(function () {
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 200) {
+				$('#carrinho-flutuante').fadeIn();
+			} else {
+				$('#carrinho-flutuante').fadeOut();
+			}
+		});
+
+		
+	});
+
+});
+</script>
+]]></add>
+            </operation>
+        </file>
+        
+</modification>
