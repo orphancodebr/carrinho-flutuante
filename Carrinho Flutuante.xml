@@ -130,24 +130,19 @@
             <operation>
                 <search position="before"><![CDATA[<?php echo $content_bottom; ?>]]></search>
                 <add><![CDATA[<script type="text/javascript">
-$(document).ready(function(){
+$(function(){$(window).scroll(function(){
+         if($(this).scrollTop()>650){
+		 $('#carrinho-flutuante').fadeIn(300);
+		 }else{
+		 $('#carrinho-flutuante').fadeOut(300);
+		 }});
+		 $('#carrinho-flutuante input').click(function(){
+		 if($('.options input').length){
+		 $('html, body').animate({scrollTop:'150px'},2000);;
+		 }});
+		 });
+		 </script>
 
-
-	$("#carrinho-flutuante").hide();
-	$(function () {
-		$(window).scroll(function () {
-			if ($(this).scrollTop() > 200) {
-				$('#carrinho-flutuante').fadeIn();
-			} else {
-				$('#carrinho-flutuante').fadeOut();
-			}
-		});
-
-		
-	});
-
-});
-</script>
 ]]></add>
             </operation>
         </file>
