@@ -1,6 +1,6 @@
 <modification>
-  <id>Carrinho Flutuante</id>
-	<version>1.0</version>
+	<id>Carrinho Flutuante</id>
+	<version>1.1.1</version>
 	<vqmver>2.1</vqmver>
 	<author>Jano Sousa / Luiz Eduardo Monteiro</author>
 <file name="catalog/view/theme/default/template/common/header.tpl">
