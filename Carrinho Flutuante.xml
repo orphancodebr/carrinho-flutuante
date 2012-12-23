@@ -1,6 +1,6 @@
 <modification>
 	<id>Carrinho Flutuante</id>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<vqmver>2.1</vqmver>
 	<author>Jano Sousa / Luiz Eduardo Monteiro</author>
 <file name="catalog/view/theme/default/template/common/header.tpl">
@@ -105,21 +105,35 @@
 
            <file name="catalog/view/theme/default/template/product/product.tpl">
             <operation>
-                <search position="before" offset="3"><![CDATA[ <?php echo $content_bottom; ?>]]>
+                <search position="before"><![CDATA[<?php echo $content_bottom; ?>]]>
                 </search>
                 <add><![CDATA[
-            <div id="carrinho-flutuante" class="">
+				
+         <div id="carrinho-flutuante" class="">
+        <?php if ($price) { ?>
+        <div class="price"style="with:100px">
+       <?php echo $text_price; ?>
+        <?php if (!$special) { ?>
+        <?php echo $price; ?>
 
-            <div class="price"style="with:100px">
-            <?php echo  $text_of; ?>
-            <?php if (!$special) { ?>
-           <span class="price-old"> <?php echo $price; ?></span>
-          
-            <?php } else { ?>
-            <span class="price-old"><?php echo $price; ?></span> <span class="price-new"><?php echo $text_for; ?> <?php echo $special; ?></span>
-            <?php } ?>
-
-        <input class="add-cart" id="button-cart" type="button" value="Adicionar ao Carrinho">
+        <?php } else { ?>
+        <span class="price-old"><?php echo $price; ?></span> <span class="price-new"><?php echo $text_for; ?> <?php echo $special; ?></span>
+       <div style="border-bottom: 1px solid #E7E7E7;"></div>
+        <?php } ?>
+        <br />
+        
+        <?php if ($discounts) { ?>
+        <br />
+        <div class="discount">
+          <?php foreach ($discounts as $discount) { ?>
+          <?php echo sprintf($text_discount, $discount['quantity'], $discount['price']); ?><br />
+          <?php } ?>
+        </div>
+        <?php } ?>
+<input type="hidden" name="product_id" size="2" value="<?php echo $product_id; ?>" />
+          &nbsp;<input type="button" value="Adicionar ao Carrinho" id="button-cart" class="add-cart" />	
+      </div>
+      <?php } ?>
     </div>
                 ]]>
                 </add>
@@ -130,7 +144,8 @@
             <operation>
                 <search position="before"><![CDATA[<?php echo $content_bottom; ?>]]></search>
                 <add><![CDATA[<script type="text/javascript">
-$(function(){$(window).scroll(function(){
+$(document).ready(function(){
+$(window).scroll(function(){
          if($(this).scrollTop()>650){
 		 $('#carrinho-flutuante').fadeIn(300);
 		 }else{
@@ -138,10 +153,49 @@ $(function(){$(window).scroll(function(){
 		 }});
 		 $('#carrinho-flutuante input').click(function(){
 		 if($('.options input').length){
-		 $('html, body').animate({scrollTop:'150px'},2000);;
+		$('html, body').animate({ scrollTop: '150px' }, 'slow'); 
 		 }});
 		 });
 		 </script>
+
+]]></add>
+            </operation>
+        </file>
+		
+		 <file name="catalog/view/theme/default/template/product/product.tpl">
+            <operation>
+                <search position="before"><![CDATA[<?php echo $content_bottom; ?>]]></search>
+                <add><![CDATA[<script type="text/javascript"><!--
+$('.add-cart').bind('click', function() {
+	$.ajax({
+		url: 'index.php?route=checkout/cart/add',
+		type: 'post',
+		data: $('.product-info input[type=\'text\'], .product-info input[type=\'hidden\'], .product-info input[type=\'radio\']:checked, .product-info input[type=\'checkbox\']:checked, .product-info select, .product-info textarea'),
+		dataType: 'json',
+		success: function(json) {
+			$('.success, .warning, .attention, information, .error').remove();
+			
+			if (json['error']) {
+				if (json['error']['option']) {
+					for (i in json['error']['option']) {
+						$('#option-' + i).after('<span class="error">' + json['error']['option'][i] + '</span>');
+					}
+				}
+			} 
+			
+			if (json['success']) {
+				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+					
+				$('.success').fadeIn('slow');
+					
+				$('#cart-total').html(json['total']);
+				
+				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
+			}	
+		}
+	});
+});
+//--></script>
 
 ]]></add>
             </operation>
