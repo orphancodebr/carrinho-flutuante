@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name><![CDATA[<font color:#b12a1a"><b> Carrinho Flutuante - SINCROMASTER </b></font>]]></name>
+    <code>carrinho-flutuante-sincromaster</code>
+    <version>1.1.2</version>
+    <author>Jano Sousa</author>
+    <link>http://www.sincromaster.com.br</link>
+<file path="catalog/view/theme/*/template/common/header.twig">
+            <operation>
+                <search position="before"><![CDATA[</head>]]></search>
+                <add><![CDATA[<style type="text/css">
+    	#carrinho-flutuante{
+			display:none;position:fixed;right:0;top:30%;z-index:300;border:1px solid #d7f0f0;padding:10px;margin-bottom:15px;background:#fff;border-right:0;margin-right:0;}
+		}
+			#carrinho-flutuante strong{
+				display:block;
+				font-size:22px;
+				font-weight:bold;
+				padding:10px 0; 
+			}
+                       #carrinho-flutuante .price-old {
+                               color: red;
+                               margin-bottom: 2px;
+                               font-size: 1.2em;
+                               text-decoration: line-through;
+
+                         }
+                      #carrinho-flutuante .price-new {
+                              font-size: 1.9em;
+                              font-weight: bold;
+                              display:block;
+                              color: #333;
+                        }
+                        #carrinho-flutuante .price {
+                              overflow: auto;
+                              border-bottom: 1px solid #E7E7E7;
+                              padding: 0px 5px 10px 5px;
+                              margin-bottom: 10px;
+                               font-size: 1.2em;
+                              font-weight: bold;
+                              color: #333;
+                              cler:both;
+                        }
+			#carrinho-flutuante small{
+				display:block;
+				font-size:12px;
+				padding:5px 0 10px 0; 
+			}
+			#carrinho-flutuante input.add-cart{
+				display:block;
+				padding:15px;
+				text-align:center;
+				cursor:pointer;
+				font-size:18px;
+				text-decoration:none;
+				border:0px;
+				z-index:999999;
+				
+				background:#67A332;
+				color:#FFF;
+				
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				
+				-moz-transition: all 0.2s ease-in-out;
+				-webkit-transition: all 0.2s ease-in-out;
+				-o-transition: all 0.2s ease-in-out;
+				-ms-transition: all 0.2s ease-in-out;
+				transition: all 0.2s ease-in-out;				
+			}
+			#carrinho-flutuante input.add-cart:hover{background:#004A00;}
+
+    </style>
+	]]></add>
+            </operation>
+        </file>
+ <file path="catalog/language/*/product/product.php">
+            <operation>
+                <search position="before"><![CDATA[$_['text_price']]]></search>
+                <add><![CDATA[$_['text_of'] = ' De:';]]></add>
+            </operation>
+			  <operation>
+                <search position="before"><![CDATA[$_['text_price']]]></search>
+                <add><![CDATA[$_['text_for'] = 'Por:';]]></add>
+            </operation>
+        </file>
+
+      <!--  <file name="catalog/controller/product/product.php">
+            <operation>
+                <search position="before"><![CDATA[$this->data['text_price'] = $this->language->get('text_price');]]></search>
+                <add><![CDATA[$this->data['text_for'] = $this->language->get('text_for');]]></add>
+            </operation>
+        </file>-->
+           <file path="catalog/view/theme/*/template/product/product.twig">
+            <operation>
+                <search position="before"><![CDATA[ {{ content_bottom }}]]>
+                </search>
+                <add><![CDATA[
+				
+         <div id="carrinho-flutuante" class="">
+        {% if price %}
+        <div class="price"style="with:100px">
+       {{ text_price }}
+        {% if not special %}
+        {{ price }}
+       {% else %}
+       <span class="price-old">{{ price }}</span> <span class="price-new">{{ text_for }} {{ special }}</span>
+       <div style="border-bottom: 1px solid #E7E7E7;"></div>
+      {% endif %}
+        <br />
+        
+       {% if discounts %}
+        <br />
+        <div class="discount">
+        {% for discount in discounts %}
+          {{ discount.quantity }}{{ text_discount }}{{ discount.price }}<br />
+        {% endfor %}
+        </div>
+       {% endif %}
+<input type="hidden" name="product_id" value="{{ product_id }}" />
+          &nbsp;<input type="button" value="Adicionar ao Carrinho" id="button-cart" class="add-cart" />	
+      </div>
+     {% endif %}
+    </div>
+                ]]>
+                </add>
+            </operation>
+        </file>
+        
+        <file path="catalog/view/theme/*/template/product/product.twig">
+            <operation>
+                <search position="before"><![CDATA[{{ footer }}]]></search>
+                <add><![CDATA[<script type="text/javascript">
+$(document).ready(function(){
+$(window).scroll(function(){
+         if($(this).scrollTop()>650){
+		 $('#carrinho-flutuante').fadeIn(300);
+		 }else{
+		 $('#carrinho-flutuante').fadeOut(300);
+		 }});
+		 $('#carrinho-flutuante input').click(function(){
+		 if($('.options input').length){
+		$('html, body').animate({ scrollTop: '150px' }, 'slow'); 
+		 }});
+		 });
+		 </script>
+
+]]></add>
+            </operation>
+        </file>
+</modification>
