@@ -6,7 +6,7 @@ Quando você rolar a página para baixo o carrinho aparece com as informações!
 
 
 
-[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/sincromaster/zica-font-awesome/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/sincromaster/carrinho-flutuante/blob/master/LICENSE)
 
 FIXED:<br>
 Corrigido o bug das opções obrigatórias do produto<br>
