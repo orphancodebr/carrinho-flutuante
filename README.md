@@ -17,7 +17,7 @@ Corrigido o bug do produto sem desconto( O carrinho não aparecia quando o produ
 Guia de instalação do O vqmod no Opencart
 http://www.opencartbrasil.com.br/artigos/conheca-vqmod/
 
-https://github.com/apophis-cms/carrinho-flutuante
+https://github.com/sincromaster/carrinho-flutuante
 
 
 Creditos: 
